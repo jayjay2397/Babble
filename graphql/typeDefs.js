@@ -9,14 +9,12 @@ module.exports = gql`
         getUsers: [User]!
         login(username: String!, password: String!): User!
     }
-    type  Mutation {
+    type Mutation{
         register(
-            username: String!
-            email: String!
-            password: String!
+            username: String! 
+            email: String! 
+            password: String! 
             confirmUserPassword: String!
-        ): User!
-
+            ): User!
     }
-    
 `
