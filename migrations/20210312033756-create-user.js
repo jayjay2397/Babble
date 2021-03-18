@@ -6,18 +6,23 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       username: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: false,
-        unqiue: true
+        unqiue: true,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: false,
-        unqiue: truesequ
+        unqiue: true,
       },
+      password: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      },
+      imageURL: Sequelize.STRING,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -25,7 +30,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
