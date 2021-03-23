@@ -8,4 +8,4 @@ const client = new ApolloClient({
 
 export default function ApolloProvider(props){
     return <Provider client = {client} {...props}/>
-}
+} 
