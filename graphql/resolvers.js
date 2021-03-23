@@ -39,6 +39,10 @@ module.exports = {
                 if(username.trim() === '') errors.username = "Username is required"
                 if(password === '') errors.password = "Password is required"
 
+                if (Object.keys(errors).length > 0) {
+                    throw new UserInputError('bad input', { errors })
+                  }
+
                 const user = await User.findOne({
                     where : {username}
                 })
@@ -47,7 +51,7 @@ module.exports = {
                     throw new UserInputError("user not found", {errors})
                 }
 
-                const correctPassword = await bcrypt.compare(password,user.password)
+                const correctPassword = await bcrypt.compare(password, user.password)
 
                 if(!correctPassword){
                     errors.password = "Incorrect password"
@@ -72,6 +76,7 @@ module.exports = {
     Mutation: {
         register: async (_, args) => {
             let { username, email, password, confirmPassword } = args
+            let errors = {}
 
             try {
              // TODO: Validate data that has been input 
@@ -82,18 +87,19 @@ module.exports = {
              if(password.trim() === '') 
                 errors.password = 'password must not be empty'
              if(confirmPassword.trim() === '') 
-                errors.confirmPassword = 'repeat password must not be empty'
+                errors.confirmPassword = 'must confirm password'
 
-             if(password !== confirmPassword) errors.confirmPassword = 'password must match'
+             if(password !== confirmPassword) 
+             errors.confirmPassword = 'password must match'
 
              // TODO: Check if username or email already exist
-             const userByUsername = await User.findOne({ where: { username }})
-             const userByEmail = await User.findOne({ where: { email }})
+            //  const userByUsername = await User.findOne({ where: { username }})
+            //  const userByEmail = await User.findOne({ where: { email }})
 
-             if(userByUsername) errors.username = 'Username is taken'
-             if(userByEmail) errors.email = 'Email is taken'
+            //  if(userByUsername) errors.username = 'Username is taken'
+            //  if(userByEmail) errors.email = 'Email is taken'
 
-             if(Object.keys(errors).lenght > 0){
+             if(Object.keys(errors).length > 0){
                  throw errors
              }
 
@@ -112,9 +118,16 @@ module.exports = {
              return user 
             } catch(err){   
               console.log(err)
-              throw new UserInputError('Inadequate input', {err}) 
+              if (err.name === 'SequelizeUniqueConstraintError') {
+                err.errors.forEach(
+                  (e) => (errors[e.path] = `${e.path} is already taken`)
+                )
+              } else if (err.name === 'SequelizeValidationError') {
+                err.errors.forEach((e) => (errors[e.path] = e.message))
+              }
+              throw new UserInputError('Inadequate input', {errors}) 
             }
-        }
-    }
+        },
+    },
 }
 
