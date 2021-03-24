@@ -1,4 +1,5 @@
 {
+  "homepage": "https://github.com/jayjay2397/Babble",
   "name": "babble",
   "version": "0.1.0",
   "private": true,
@@ -25,6 +26,8 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "nodemon server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
