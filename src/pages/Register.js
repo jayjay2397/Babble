@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import BG1 from '../video/bg1.mp4';
 import { gql, useMutation } from '@apollo/client';
+import { Link } from 'react-router-dom'
 
 const REGISTER_USER = gql`
   mutation register(
@@ -86,6 +87,10 @@ export default function Register(props) {
             <Button variant="success" type="submit" disabled={loading}>
               {loading ? 'Loading..' : 'Register'}
             </Button>
+            <br />
+            <small>
+              Already have an account? <Link to="/login">Login</Link>
+            </small>
           </div>
         </Form>
       </Col>
