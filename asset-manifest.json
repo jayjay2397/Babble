@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/jayjay2397/Babble/static/css/main.9a45d824.chunk.css",
+    "main.js": "/jayjay2397/Babble/static/js/main.228ca198.chunk.js",
+    "main.js.map": "/jayjay2397/Babble/static/js/main.228ca198.chunk.js.map",
+    "runtime-main.js": "/jayjay2397/Babble/static/js/runtime-main.2ebb24af.js",
+    "runtime-main.js.map": "/jayjay2397/Babble/static/js/runtime-main.2ebb24af.js.map",
+    "static/js/2.1640418f.chunk.js": "/jayjay2397/Babble/static/js/2.1640418f.chunk.js",
+    "static/js/2.1640418f.chunk.js.map": "/jayjay2397/Babble/static/js/2.1640418f.chunk.js.map",
+    "index.html": "/jayjay2397/Babble/index.html",
+    "static/css/main.9a45d824.chunk.css.map": "/jayjay2397/Babble/static/css/main.9a45d824.chunk.css.map",
+    "static/js/2.1640418f.chunk.js.LICENSE.txt": "/jayjay2397/Babble/static/js/2.1640418f.chunk.js.LICENSE.txt",
+    "static/media/bg1.ca568167.mp4": "/jayjay2397/Babble/static/media/bg1.ca568167.mp4"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2ebb24af.js",
+    "static/js/2.1640418f.chunk.js",
+    "static/css/main.9a45d824.chunk.css",
+    "static/js/main.228ca198.chunk.js"
+  ]
+}
