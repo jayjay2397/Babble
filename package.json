@@ -28,7 +28,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "dev": "nodemon server.js --ignore src/" ,
+    "dev": "nodemon server.js --ignore src/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -21,7 +21,7 @@ module.exports = {
                     })
                 }
 
-                const users = await User.findALL({
+                const users = await User.findAll({
                     where: { username: {[Op.ne]: User.username }}
                 })
 
