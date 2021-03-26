@@ -4,6 +4,7 @@ import { gql, useLazyQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import BG1 from '../video/bg1.mp4';
 
+import { useAuthDispatch } from '../context/auth'
 
 const LOGIN_USER = gql`
   query login($username: String!, $password: String!) {
@@ -23,10 +24,13 @@ export default function Register(props) {
   })
   const [errors, setErrors] = useState({})
 
+  const dispatch = useAuthDispatch()
+
   const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
     onError: (err) => setErrors(err&&err.graphQLErrors[0]?err.graphQLErrors[0].extensions.exception.errors:{}),
     onCompleted(data) {
-      localStorage.setItem('token', data.login.token)
+      // localStorage.setItem('token', data.login.token)
+      dispatch({ type: 'LOGIN', payload: data.login })
       props.history.push('/')
     },
   })
