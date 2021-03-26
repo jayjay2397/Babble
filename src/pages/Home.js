@@ -2,7 +2,7 @@ import React, { Fragment }from 'react'
 import {Row, Col, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
-
+import BG1 from '../video/bg1.mp4'
 
 import {useAuthDispatch} from '../context/auth'
 
@@ -50,7 +50,7 @@ export default function Home({history}) {
       }
     return (
         <Fragment>
-        <Row className = "justify-content-around mb-1">
+        <Row className = "bg-white justify-content-around mb-1">
             <Link to="/login">
                 <Button variant = "link">Login</Button>
             </Link>
@@ -64,6 +64,9 @@ export default function Home({history}) {
         <Col xs={8}>
           <p>Messages</p>
         </Col>
+        <video
+        id="VidBG" autoPlay muted loop> <source src={BG1} type="video/mp4" />
+      </video>
       </Row>
         </Fragment>
     )
