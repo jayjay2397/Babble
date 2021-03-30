@@ -14,7 +14,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer${token}` : '',
     },
   }
 })
@@ -25,5 +25,5 @@ const client = new ApolloClient({
 })
 
 export default function ApolloProvider(props){
-    return <Provider client = {client} {...props}/>
+    return <Provider client = {client}{...props}/>
 } 

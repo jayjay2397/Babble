@@ -4,9 +4,8 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 
-const { User } = require('../../models')
+const { Messages,User } = require('../../models')
 const { JWT_SECRET } = require('../../config/env.json')
-const { Message } = require('@material-ui/icons')
 
 module.exports = {
   Query: {
@@ -14,19 +13,20 @@ module.exports = {
       try {
         if (!user) throw new AuthenticationError('Unauthenticated')
 
-        const users = await User.findAll({
+        let users = await User.findAll({
           attritbutes: ['username', 'imageUrl', 'createdAt'],
           where: { username: { [Op.ne]: user.username } },
         })
 
-        const allUserMessages = await Message.findAll ({
+        const allUserMessages = await Messages.findAll({
           where: {
-            [Op.or]: [{ from: user.username }, { to: user.username}],
+            [Op.or]: [{ from: user.username }, { to: user.username }],
           },
           order: [['createdAt', 'DESC']],
         })
+
         
-        users = users.map(otherUser) => {
+        users = users.map((otherUser) => {
           const latestMessage = allUserMessages.find(
             (m) => m.from === otherUser.username || m.to === otherUser.username
           )

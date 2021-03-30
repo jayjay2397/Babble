@@ -3,10 +3,10 @@ const { gql } = require('apollo-server')
 module.exports = gql`
     type User{
         username: String!
-        email: String!
+        email: String
         createdAt: String!
         token: String
-        imageUrl: String!
+        # imageUrl: String!
         latestMessage: Message
     }
     type Message{
