@@ -3,6 +3,8 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 import BG1 from '../video/bg1.mp4';
 import { gql, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom'
+import Logo from '../pictures/Babble.png'
+
 
 const REGISTER_USER = gql`
   mutation register(
@@ -49,7 +51,8 @@ export default function Register(props) {
   return (
     <Row className="bg-white py-5 justify-content-center">
       <Col sm={8} md={6} lg={4}>
-        <h1 className="text-center"> Register</h1>
+        <h1><img src={Logo} alt ="logo" width = "150" className="d-block mx-auto img-fluid  "/></h1>
+        <h2 className="text-center"> Register</h2>
         <Form onSubmit={submitRegistrationForm}>
         <Form.Group>
             <Form.Label className={errors.email && 'text-danger'}>

@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 import { gql, useLazyQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import BG1 from '../video/bg1.mp4';
-
+import Logo from '../pictures/Babble.png'
 import { useAuthDispatch } from '../context/auth'
 
 const LOGIN_USER = gql`
@@ -44,7 +44,8 @@ export default function Register(props) {
   return (
     <Row className="bg-white py-5 justify-content-center">
       <Col sm={8} md={6} lg={4}>
-        <h1 className="text-center">Login</h1>
+        <h1><img src={Logo} alt ="logo" width = "220" className="d-block mx-auto img-fluid  "/></h1>
+        <h2 className="text-center">Login</h2>
         <Form onSubmit={submitLoginForm}>
           <Form.Group>
             <Form.Label className={errors.username && 'text-danger'}>

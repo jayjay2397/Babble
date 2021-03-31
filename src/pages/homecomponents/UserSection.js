@@ -23,10 +23,11 @@ const GET_USERS = gql`
 `
 
 
-export default function UserSection({setSelectedUser, selectedUser}) {
+export default function UserSection() {
 
     const dispatch = useMessageDispatch()
     const { users } = useMessageState()
+    const selectedUser = users?.find((u) => u.selected === true)?.username
     
     
     const { loading } = useQuery(GET_USERS, {
@@ -52,7 +53,7 @@ export default function UserSection({setSelectedUser, selectedUser}) {
             'bg-white': selected,
           })}
         key={users.username}
-        onClick={() => setSelectedUser(users.username)}
+        onClick={() => dispatch({ type: 'SET_SELECTED_USER', payload: users.username })}
       >
         <Image
           src={users.imageUrl}
