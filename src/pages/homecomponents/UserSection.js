@@ -1,6 +1,10 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { Col, Image } from 'react-bootstrap'
+import classNames from 'classnames'
+
+
+import { useMessageDispatch, useMessageState } from '../../context/msgcontext'
 
 const GET_USERS = gql`
   query getUsers {
@@ -19,19 +23,34 @@ const GET_USERS = gql`
 `
 
 
-export default function UserSection({setSelectedUser}) {
+export default function UserSection({setSelectedUser, selectedUser}) {
+
+    const dispatch = useMessageDispatch()
+    const { users } = useMessageState()
     
-    const { loading, data, error } = useQuery(GET_USERS)
+    
+    const { loading } = useQuery(GET_USERS, {
+        onCompleted: (data) =>
+          dispatch({ type: 'SET_USERS', payload: data.getUsers }),
+        onError: (err) => console.log(err),
+      })
 
     let usersMarkup 
-  if (!data || loading) {
+ if (!users || loading) {
     usersMarkup = <p>Loading..</p>
-  } else if (data.getUsers.length === 0) {
+} else if (users.length === 0) {
     usersMarkup = <p>No users have joined yet</p>
-  } else if (data.getUsers.length > 0) {
-    usersMarkup = data.getUsers.map((users) => (
+} else if (users.length > 0) {
+    usersMarkup = users.map((users) => {
+
+        const selected = selectedUser === users.username
+
+    return(
       <div
-        className="d-flex p-3"
+        role = "button"
+        className={classNames('MsgHover d-flex p-3', {
+            'bg-white': selected,
+          })}
         key={users.username}
         onClick={() => setSelectedUser(users.username)}
       >
@@ -49,8 +68,8 @@ export default function UserSection({setSelectedUser}) {
               : 'You are now connected!'}
           </p>
         </div>
-      </div>
-    ))
+      </div>)
+    })
   }
     return (
         <Col xs={4} className="p-0 bg-secondary">{usersMarkup}</Col>
