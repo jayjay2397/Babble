@@ -70,7 +70,9 @@ export default function MessageSection() {
       const submitMessage = e => {
         e.preventDefault()
 
-        if(content === '') return
+        if(content === '' || !selectedUser) return
+
+        setContent('')
 
         // Mutation for sending new messages
         sendMessage({variables: {to: selectedUser.username, content }})
@@ -81,9 +83,9 @@ export default function MessageSection() {
 
       let selectedChatMarkup
       if (!messages && !messagesLoading) {
-        selectedChatMarkup = <p>Select a friend 💁‍ </p>
+        selectedChatMarkup = <p className="info-txt">Select a friend 💁‍ </p>
       } else if (messagesLoading) {
-        selectedChatMarkup = <p>Loading..</p>
+        selectedChatMarkup = <p className="info-txt">Loading..</p>
       } else if (messages.length > 0) {
         selectedChatMarkup = messages.map((message,index) => (
           <Fragment key={message.uuid}>
@@ -96,21 +98,28 @@ export default function MessageSection() {
         </Fragment>
         ))
       } else if (messages.length === 0) {
-        selectedChatMarkup = <p>You're connected! Send your first message 😎 !</p>
+        selectedChatMarkup = <p className="info-txt">You're connected! Send your first message 😎 !</p>
       }
       return (
-        <Col xs={10} md={8} className="messages-box d-flex flex-column-reverse">
+        <Col xs={10} md={8} >
+          <div className="messages-box d-flex flex-column-reverse">
+
           {selectedChatMarkup}
+
+          </div>
+          <div>
           <Form onSubmit = {submitMessage}>
             <Form.Group>
               <Form.Control 
               type = "text"
-              className= "rounded-pill"
-              placeholder = "Write a message..."
+              className= "msg-input p-4 rounded-pill bg-secondary border-0"
+              placeholder = "Message..."
               value={content}
-              OnChange={e => setContent(e.target.value)}/>
+              onChange={e => setContent(e.target.value)}/>
+              <i class="fas fa-paper-plane"></i>
             </Form.Group>
           </Form>
+          </div>
         </Col>
       )
     }

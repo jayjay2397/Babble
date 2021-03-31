@@ -34,4 +34,14 @@ $gray-600: rgb(245, 245, 245);
     }
   }
 
+.msg-input::placeholder {
+  color: rgba(0,0,0,0.5);
+}
+
+.info-txt{
+  
+  text-align: center;
+  margin-bottom: 1rem;
+
+}
   
