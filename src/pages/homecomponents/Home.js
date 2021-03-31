@@ -1,38 +1,24 @@
 import React, { useEffect , useState , Fragment }from 'react'
-import {Row, Col, Button, Image } from 'react-bootstrap'
+import {Row, Col, Button } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import { gql, useLazyQuery, useQuery } from '@apollo/client'
-import BG1 from '../video/bg1.mp4'
+import { gql, useLazyQuery } from '@apollo/client'
+import BG1 from '../../video/bg1.mp4'
 
-import {useAuthDispatch} from '../context/auth'
+import {useAuthDispatch} from '../../context/auth'
 
-const GET_USERS = gql`
-  query getUsers {
-    getUsers {
-      username
-      email
+import Users from './UserSection'
+
+
+const GET_MESSAGES = gql`
+  query getMessages($from: String!) {
+    getMessages(from: $from) {
+      uuid
+      from
+      to
+      content
       createdAt
-      imageUrl
-      latestMessage {
-        uuid
-        from
-        to
-        content
-        createdAt
-      }
     }
   }
-`
-  const GET_MESSAGES = gql`
-    query getMessages($from: String!) {
-      getMessages(from: $from) {
-        uuid 
-        from  
-        to
-        content
-        createdAt
-      }
-    }
 `
 
 export default function Home({ history }) {
@@ -44,7 +30,7 @@ export default function Home({ history }) {
     history.push('/login')
   }
 
-  const { loading, data, error } = useQuery(GET_USERS)
+
 
   const [
     getMessages,
@@ -57,27 +43,9 @@ export default function Home({ history }) {
     }
   }, [selectedUser])
 
-  if (messagesData) console.log(messagesData.getMessages)
+  // if (messagesData) console.log(messagesData.getMessages)
 
-  let usersMarkup 
-  if (!data || loading) {
-    usersMarkup = <p>Loading..</p>
-  } else if (data.getUsers.length === 0) {
-    usersMarkup = <p>No users have joined yet</p>
-  } else if (data.getUsers.length > 0) {
-    usersMarkup = data.getUsers.map((user) => (
-      <div key={user.username}> 
-      <p>{user.username}</p> 
-    
-        <div>
-          <p className="text-success">{user.username}</p>
-          <p className="font-weight-light">
-            {user.latestMessage ? user.latestMessage.content : 'You are now connected!'}
-          </p>
-        </div>
-      </div>
-    ))
-  }
+  
 
 return (
   <Fragment>
@@ -93,7 +61,7 @@ return (
       </Button>
     </Row>
     <Row className="bg-white">
-      <Col xs={4} className="p-0 bg-secondary">{usersMarkup}</Col>
+      <Users setSelectedUser = {setSelectedUser}/>
       <Col xs={8}>
       {messagesData && messagesData.getMessages.length > 0 ? (
             messagesData.getMessages.map((message) => (
