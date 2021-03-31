@@ -1,8 +1,19 @@
-import React, { Fragment, useEffect } from 'react'
-import { gql, useLazyQuery } from '@apollo/client'
-import {Col} from 'react-bootstrap'
+import React, { Fragment, useEffect, useState } from 'react'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
+import {Col,Form} from 'react-bootstrap'
 import Message from './MessageStyle'
 import { useMessageDispatch, useMessageState } from '../../context/msgcontext'
+
+
+const SEND_MESSAGE = gql `
+mutation sendMessage($to: String!, $content: String!){
+  sendMessage(to: $to, content: $content){
+    uuid from to content createdAt
+  }
+}
+
+`
+
 
 const GET_MESSAGES = gql`
   query getMessages($from: String!) {
@@ -19,6 +30,7 @@ const GET_MESSAGES = gql`
 export default function MessageSection() {
     const {users} = useMessageState()
     const dispatch = useMessageDispatch()
+    const [content, setContent] = useState('')
 
     const selectedUser = users?.find(u => u.selected === true )
     const messages = selectedUser?.messages
@@ -28,6 +40,15 @@ export default function MessageSection() {
         getMessages,
         { loading: messagesLoading, data: messagesData },
       ] = useLazyQuery(GET_MESSAGES)
+
+
+      const [sendMessage] = useMutation(SEND_MESSAGE,{
+        onCompleted: data => dispatch({type: 'ADD_MESSAGE', payload:{
+          username: selectedUser.username,
+          message: data.sendMessage
+        }}),
+        onError: err => console.log(err)
+      })
     
       useEffect(() => {
         if (selectedUser && !selectedUser.messages) {
@@ -45,6 +66,15 @@ export default function MessageSection() {
           })
         }
       }, [messagesData])
+
+      const submitMessage = e => {
+        e.preventDefault()
+
+        if(content === '') return
+
+        // Mutation for sending new messages
+        sendMessage({variables: {to: selectedUser.username, content }})
+      }
     
       // if (messagesData) console.log(messagesData.getMessages)
     
@@ -71,6 +101,16 @@ export default function MessageSection() {
       return (
         <Col xs={10} md={8} className="messages-box d-flex flex-column-reverse">
           {selectedChatMarkup}
+          <Form onSubmit = {submitMessage}>
+            <Form.Group>
+              <Form.Control 
+              type = "text"
+              className= "rounded-pill"
+              placeholder = "Write a message..."
+              value={content}
+              OnChange={e => setContent(e.target.value)}/>
+            </Form.Group>
+          </Form>
         </Col>
       )
     }
