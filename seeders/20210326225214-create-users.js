@@ -1,4 +1,7 @@
 'use strict'
+
+
+
 const bcrypt = require('bcryptjs')
 
 module.exports = {
@@ -8,6 +11,22 @@ module.exports = {
     const updatedAt = createdAt
 
     await queryInterface.bulkInsert('users', [
+      {
+        username: 'Jose',
+        email: 'Jose@email.com',
+        password: password,
+        imageUrl: '',
+        createdAt,
+        updatedAt,
+      },
+      {
+        username: 'Diana',
+        email: 'Diana@email.com',
+        password: password,
+        imageUrl: '',
+        createdAt,
+        updatedAt,
+      },
       {
         username: 'test',
         email: 'test@email.com',

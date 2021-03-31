@@ -55,24 +55,20 @@ export default function UserSection() {
         key={users.username}
         onClick={() => dispatch({ type: 'SET_SELECTED_USER', payload: users.username })}
       >
-        <Image
-          src={users.imageUrl}
-          roundedCircle
-          className="mr-2"
-          style={{ width: 50, height: 50, objectFit: 'cover' }}
-        />
+        <Image src={users.imageUrl} className="ProfileImg mr-2"/>
+        {/* <div className="d-none d-md-block ml-2"></div> */}
         <div>
           <p className="text-success">{users.username}</p>
           <p className="font-weight-light">
             {users.latestMessage
               ? users.latestMessage.content
-              : 'You are now connected!'}
+              : "You're connected!"}
           </p>
         </div>
       </div>)
     })
   }
     return (
-        <Col xs={4} className="p-0 bg-secondary">{usersMarkup}</Col>
+        <Col xs={2} md={4} className="p-0 bg-secondary">{usersMarkup}</Col>
     )
 }
