@@ -1,7 +1,7 @@
 const { UserInputError, AuthenticationError, withFilter, } = require('apollo-server')
 const { Op } = require('sequelize')
 
-const { Messages, User } = require('../../models/')
+const { Messages, User } = require('../../models')
 
 module.exports = {
   Query: {
