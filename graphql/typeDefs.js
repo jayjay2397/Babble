@@ -15,22 +15,32 @@ module.exports = gql`
         from: String!
         to: String!
         content: String!
+
     }
+    type Reaction {
+    uuid: String!
+    content: String!
+    createdAt: String!
+    Message: Message!
+    User: User!
+  }
     type Query {
-        getUsers: [User]!
-        login(username: String!, password: String!): User!
-        getMessages(from: String!): [Message]!
+    getUsers: [User]!
+    login(username: String!, password: String!): User!
+    getMessages(from: String!): [Message]!
     }
     type Mutation{
-        register(
-            username: String! 
-            email: String! 
-            password: String! 
-            confirmPassword: String!
-            ): User!
-            sendMessage(to:String! content:String!): Message!
+    register(
+        username: String! 
+        email: String! 
+        password: String! 
+        confirmPassword: String!
+        ): User!
+        sendMessage(to:String! content:String!): Message!
+        reactToMessage(uuid: String!, content: String!): Reaction!
     }
     type Subscription {
     newMessage: Message!
+    newReaction: Reaction!
   }
 `
