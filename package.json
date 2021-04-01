@@ -28,6 +28,7 @@
     "react-scripts": "4.0.3",
     "sass": "^1.32.8",
     "sequelize": "^6.5.0",
+    "subscriptions-transport-ws": "^0.9.18",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
