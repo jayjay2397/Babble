@@ -70,7 +70,7 @@ export default function MessageSection() {
       const submitMessage = e => {
         e.preventDefault()
 
-        if(content === '' || !selectedUser) return
+        if(content.trim() === '' || !selectedUser) return
 
         setContent('')
 
@@ -109,14 +109,17 @@ export default function MessageSection() {
           </div>
           <div>
           <Form onSubmit = {submitMessage}>
-            <Form.Group>
+            <Form.Group className="d-flex align-items-center">
               <Form.Control 
               type = "text"
               className= "msg-input p-4 rounded-pill bg-secondary border-0"
               placeholder = "Message..."
               value={content}
               onChange={e => setContent(e.target.value)}/>
-              <i class="fas fa-paper-plane"></i>
+              <i className= "far fa-arrow-alt-circle-right fa-2x text-primary m1-2 " onClick = {submitMessage}
+              role ="button"
+              ></i>
+              
             </Form.Group>
           </Form>
           </div>
