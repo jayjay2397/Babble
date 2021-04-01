@@ -10,10 +10,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: contextMiddleware,
+
 });
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url , subscriptionsUrl}) => {
   console.log(`🚀 Server ready at ${url}`);
+
 
   sequelize.authenticate()
   .then(() => console.log ("Database Is Connected!"))
