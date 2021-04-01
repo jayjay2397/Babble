@@ -45,5 +45,9 @@ $gray-600: rgb(245, 245, 245);
 
 }
 
-
-  
+.reacticonBtn:hover{
+  text-decoration: none;
+}
+.btn:focus{
+  box-shadow: none;
+}

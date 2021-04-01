@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ User, Messages }) {
       // define association here
-      this.belongsTo(Messages)
-      this.belongsTo(User)
+      this.belongsTo(Messages, { foreignKey: 'messageId' })
+      this.belongsTo(User, { foreignKey: 'userId' })
     }
   }
   Reaction.init(
