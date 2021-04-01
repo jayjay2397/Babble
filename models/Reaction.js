@@ -1,40 +1,42 @@
 'use strict'
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('reactions', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class Reaction extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate({ User, Messages }) {
+      // define association here
+      this.belongsTo(Messages)
+      this.belongsTo(User)
+    }
+  }
+  Reaction.init(
+    {
       content: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       uuid: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       messageId: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-    })
-  },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('reactions')
-  },
+    },
+    {
+      sequelize,
+      modelName: 'Reaction',
+      tableName: 'reactions',
+    }
+  )
+  return Reaction
 }
