@@ -22,6 +22,7 @@ module.exports = {
             to: { [Op.in]: usernames },
           },
           order: [['createdAt', 'DESC']],
+          // include: [{ model: Reaction, as: 'reactions' }],
         })
 
         return messages
@@ -48,15 +49,15 @@ module.exports = {
           throw new UserInputError('Message is empty')
         }
 
-        const message = await Messages.create({
+        const messages = await Messages.create({
           from: user.username,
           to,
           content,
         })
 
-        pubsub.publish('NEW_MESSAGE', { newMessage: message })
+        pubsub.publish('NEW_MESSAGE', { newMessage: messages })
 
-        return message
+        return messages
       } catch (err) {
         console.log(err)
         throw err
@@ -77,15 +78,15 @@ module.exports = {
         if (!user) throw new AuthenticationError('Unauthenticated')
 
         // Getting message
-        const message = await Messages.findOne({ where: { uuid } })
-        if (!message) throw new UserInputError('message not found')
+        const messages = await Messages.findOne({ where: { uuid } })
+        if (!messages) throw new UserInputError('message not found')
 
-        if (message.from !== user.username && message.to !== user.username) {
+        if (messages.from !== user.username && messages.to !== user.username) {
           throw new ForbiddenError('Unauthorized')
         }
 
         let reaction = await Reaction.findOne({
-          where: { messageId : message.id, userId : user.id },
+          where: { messageId: messages.id, userId: user.id },
         })
 
         if (reaction) {
@@ -95,7 +96,7 @@ module.exports = {
         } else {
           // if Reaction doesnt exists, create it
           reaction = await Reaction.create({
-            messageId: message.id,
+            messageId: messages.id,
             userId: user.id,
             content,
           })
